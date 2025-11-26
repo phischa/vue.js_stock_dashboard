@@ -18,4 +18,4 @@ export async function getAllStocks() {
     return response.data
 }
 
-export default apiClient
+export default apiClient    
