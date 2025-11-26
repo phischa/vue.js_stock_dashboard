@@ -1,5 +1,5 @@
 import { ref } from 'vue'
-import apiClient from '@/services/stockService'
+import { getStockData } from '@/services/stockService'
 
 export function useStockData() {
     const data = ref([])
@@ -10,8 +10,7 @@ export function useStockData() {
         loading.value = true
         error.value = null
         try {
-            const response = await apiClient.get('', { params: { sheet } })
-            data.value = response.data  // Axios parsed JSON automatisch
+            data.value = await getStockData(sheet)
         } catch (e) {
             error.value = e.response?.data?.message || e.message
         } finally {
@@ -19,5 +18,10 @@ export function useStockData() {
         }
     }
 
-    return { data, loading, error, fetchStock }
+    function clearData() {
+        data.value = []
+        error.value = null
+    }
+
+    return { data, loading, error, fetchStock, clearData }
 }
