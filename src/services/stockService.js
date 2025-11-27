@@ -9,7 +9,7 @@ const apiClient = axios.create({
 })
 
 export async function getStockData(sheet) {
-    const response = await apiClient.get('', { params: { sheet } })
+    const response = await apiClient.get('', { params: { sheet: `$${sheet}` } })
     return response.data
 }
 
