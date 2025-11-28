@@ -1,10 +1,12 @@
 <template>
   <BaseCard>
-    <div v-if="loading">Lädt...</div>
+    <div v-if="loading">Lädt alle Aktien...</div>
     <div v-else-if="error">Fehler: {{ error }}</div>
     <div v-else>
-      <h1>Stock Daten</h1>
-      <pre>{{ data }}</pre>
+      <h2>Geladene Aktien:</h2>
+      <p v-for="stock in STOCKS" :key="stock">
+        {{ stock }}: {{ stocks[stock]?.length }} Einträge
+      </p>
     </div>
   </BaseCard>
 </template>
@@ -12,13 +14,13 @@
 <script setup>
 import { onMounted } from 'vue'
 import BaseCard from './components/BaseCard.vue'
-import { useStockData } from '@/composables/useStockData'
+import { useAllStocks } from '@/composables/useAllStocks'
 
-const { data, loading, error, fetchStock } = useStockData()
+const { stocks, loading, error, fetchAllStocks, STOCKS } = useAllStocks()
 
 onMounted(async () => {
-  await fetchStock('AAPL')
-  console.log('Komponente ist geladen!', data.value)
+  await fetchAllStocks()
+  console.log('Alle Aktien geladen!', stocks.value)
 })
 </script>
 
