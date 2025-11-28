@@ -1,16 +1,16 @@
 import { ref } from 'vue'
-import { getStockData } from '@/services/stockService'
+import { getAllStocksData, STOCKS } from '@/services/stockService'
 
 export function useStockData() {
-    const data = ref([])
+    const stocks = ref([])
     const loading = ref(false)
     const error = ref(null)
 
-    async function fetchStock(sheet) {
+    async function fetchAllStocks(sheet) {
         loading.value = true
         error.value = null
         try {
-            data.value = await getStockData(sheet)
+            data.value = await getAllStocksData(sheet)
         } catch (e) {
             error.value = e.response?.data?.message || e.message
         } finally {
@@ -23,5 +23,5 @@ export function useStockData() {
         error.value = null
     }
 
-    return { data, loading, error, fetchStock, clearData }
+    return { stocks, loading, error, fetchAllStocks, STOCKS }
 }
